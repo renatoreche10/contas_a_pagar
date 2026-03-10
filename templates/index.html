@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title class="financas">Contas a Pagar</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">   
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+</head>
+<body>
+    
+    <header>
+        <h1 class="financasPessoais">Contas a Pagar</h1>
+    </header>
+    <!-- cadastro -->
+    <section id="sectionTopo">
+        <div id="cadastro">
+            <h2>Adicionar Despesas</h2>
+
+            <form id="adicionarDespesa" method="POST" action="/salvar_despesa"  >
+                <input type="hidden" id = 'edit_id' name="id">
+
+                <label for="descricao"></label>
+                <input type="text" id="descricao" name="descricao" placeholder="Descrição da despesa" required>
+                
+                <label for="valor"></label>
+                <input type="number" id="valor" name="valor" step="0.01" placeholder="R$ Valor" required>
+
+                <label for="dataVencimento"></label>
+                <input type="date" id="dataVencimento" name="dataVencimento" required>
+                <!-- categorias -->
+                <label for="categoria"></label>
+                <select id="categoria" name="categoria">
+                    <option value="contasBasicas">Contas Básicas</option>
+                    <option value="saude">Saúde</option>
+                    <option value="cartao">Cartão</option>
+                    <option value="gerais">Gerais</option>
+                </select>  
+                <!-- botões -->
+                <div style="margin-top: 10px;">
+                    
+                    <button type="submit" id="btnAdicionar" ><span class="iconemais">+</span>Adicionar</button>
+                    <button type="submit" id="btnEditar" formaction="/editar_despesa" ><span class="editar">📝</span>Editar</button>
+                <!-- botão confirmação exclusão -->
+                <div id="modalExcluir" class="modal-oculto">
+                        <div class="modal-conteudo">
+                            <h2 class="confExcl">Confirmar Exclusão</h2>
+                            <div class="botao-modal">
+                            <button id="confirmarExcluir" onclick="confirmarExclusao()">Sim</button>
+                            <button id="cancelarExcluir" type="button" onclick="fecharModalExcluir()">Não</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <button type="button" id="btnExcluir" onclick="abrirModalExcluir()" ><span class="excluir">🗑️</span>Excluir</button>
+                </div>
+                
+            </form>  
+        </div>
+        <div id="total">
+            <div class="totalGeral">
+                <h2>Total Gasto: <span id="totalGasto">R$ {{ '%.2f'|format(total_geral) }}</span></h2>
+                <h2>Total Pago: <span id="totalPago">R$ 0.00</span></h2>
+                <h2>Total a Pagar: <span id="totalPagar">R$ 0.00</span></h2>
+            </div>
+            <div class ="totalCategorias">
+                <ul>
+                    <li>Contas Básicas: R$ {{ '%.2f'|format(total_por_categoria.get('contasBasicas', 0)) }}</li>
+                    <li>Saúde: R$ {{ '%.2f'|format(total_por_categoria.get('saude', 0)) }}</li>
+                    <li>Cartão: R$ {{ '%.2f'|format(total_por_categoria.get('cartao', 0)) }}</li>
+                    <li>Gerais: R$ {{ '%.2f'|format(total_por_categoria.get('gerais', 0)) }}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- relatório html -->
+    <section id="relatorio">
+        <div id="tabelaCategorias">
+            <!-- tabela contas basicas -->
+            <table border ="1" id="contasBasicas">
+                <caption>Contas Básicas</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                        {% for d in despesas %}
+                            {% if d.categoria == 'contasBasicas' %}
+                                <tr>
+                                    <td> 
+                                        <input type="radio" name="selecionar"
+                                            onclick="edicao('{{d.id}}', '{{d.descricao}}', '{{d.valor}}', '{{d.dataVencimento}}', '{{d.categoria}}')">
+                                    </td>
+                                    <td>{{ d.descricao }}</td>
+                                    <td>R$ {{ '%.2f'|format(d.valor) }}</td>
+                                    <td>{{ d.dataVencimento.strftime('%d/%m/%Y') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>        
+            </table>
+            <!-- tabela saude -->
+             <table border ="1" id="saude">
+                <caption>Saúde</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for d in despesas %}
+                            {% if d.categoria == 'saude' %}
+                                <tr>
+                                    <td> 
+                                        <input type="radio" name="selecionar"
+                                            onclick="edicao('{{d.id}}', '{{d.descricao}}', '{{d.valor}}', '{{d.dataVencimento}}', '{{d.categoria}}')">
+                                    </td>
+                                    <td>{{ d.descricao }}</td>
+                                    <td>R$ {{ '%.2f'|format(d.valor) }}</td>
+                                    <td>{{ d.dataVencimento.strftime('%d/%m/%Y') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                </tbody>        
+            </table>
+             <!-- tabela cartao -->
+             <table border ="1" id="cartao">
+                <caption>Cartão</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for d in despesas %}
+                            {% if d.categoria == 'cartao' %}
+                                <tr>
+                                    <td> 
+                                        <input type="radio" name="selecionar"
+                                            onclick="edicao('{{d.id}}', '{{d.descricao}}', '{{d.valor}}', '{{d.dataVencimento}}', '{{d.categoria}}')">
+                                    </td>
+                                    <td>{{ d.descricao }}</td>
+                                    <td>R$ {{ '%.2f'|format(d.valor) }}</td>
+                                    <td>{{ d.dataVencimento.strftime('%d/%m/%Y') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                </tbody>
+            </table>
+             <!-- tabela gerais -->
+                <table border ="1" id="gerais">
+                <caption>Gerais</caption>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Descrição</th>
+                        <th>Valor</th>
+                        <th>Vencimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        {% for d in despesas %}
+                            {% if d.categoria == 'gerais' %}
+                                <tr>
+                                    <td> 
+                                        <input type="radio" name="selecionar"
+                                            onclick="edicao('{{d.id}}', '{{d.descricao}}', '{{d.valor}}', '{{d.dataVencimento}}', '{{d.categoria}}')">
+                                    </td>
+                                    <td>{{ d.descricao }}</td>
+                                    <td>R$ {{ '%.2f'|format(d.valor) }}</td>
+                                    <td>{{ d.dataVencimento.strftime('%d/%m/%Y') }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                </tbody>
+
+            </table>
+        </div>
+    </section>
+    
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

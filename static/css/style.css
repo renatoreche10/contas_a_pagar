@@ -1,0 +1,224 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #a8dbff;
+    margin: 20px;
+    padding: 20px;
+
+}
+
+.financas {
+        color: #640b0b;
+    }
+table td{
+    text-transform: capitalize;
+}
+
+th,td{
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    width: auto;
+}
+th {
+    background-color: #120531;
+    color: #fff;
+    
+}
+th:first-child, td:first-child {
+    width:70%;
+}
+th:last-child, td:last-child {
+    width: 30%;
+}
+/* layout topo */
+#sectionTopo{
+    display: flex;
+    justify-content: space-between;    
+}
+#adicionarDespesa {
+    background-color: #120531;
+    color: #f7f6f6;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap :15px;
+}
+
+#cadastro {
+    background-color: #857f94;
+    color: #0d0d0d;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: fit-content;
+    flex: 2;
+}
+/* total */
+#total{
+    display: flex;
+    background-color: #857f94;
+    color: #0b0b0b;
+    border-radius: 40px;
+    flex:1;
+    padding: 10px 5px;
+    margin-left: 100px;
+    margin-right: 100px;
+
+}
+.totalGeral{
+    font-size: 10px;
+
+}
+.totalCategorias .totalGeral {
+    display: flex;
+}
+.totalCategorias li  {
+    font-size: 15px;             
+    list-style: none;            
+    text-align: right;
+    margin-left: 10px;
+
+}
+#totalGasto {
+    color: #2369ea;
+}
+#totalPago {
+    color: #012309;
+}
+#totalPagar {
+    color: #400309;
+}
+
+/* relatorios */
+#relatorio {
+    background-color: #857f94;
+    color: #0d0d0d;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: fit-content;
+}
+ input::-webkit-outer-spin-button,  /* remove os botões de incremento/decremento para campos de número no Chrome    */
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input#descricao {
+    width: 30%;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+input#valor {
+    width: 8%;
+    padding: 2px;
+    border: 1px solid #ccc;
+}
+input#parcelas {
+    width: 7%;
+    padding: 2px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+}
+
+/*tabelas*/
+#tabelaCategorias {
+    display: flex;
+    gap: 15px 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    width: fit-content;
+    background-color: #120531;
+    color: #f7f6f6;
+    border-radius: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-items: flex-start;
+}
+table{
+    width: 22.5%;
+    border-collapse: collapse;
+}
+caption {
+    background-color: #10262a;
+    color: #f7f6f6;
+    padding: 10px 10px;
+    cursor: pointer;
+    width: fit-content;
+    margin-bottom: 10px;}
+/* botões */
+.confExcl {
+    color: #a71b1b;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap :8px;
+}
+#modalExcluir {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+.modal-oculto {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+
+button {
+    background-color: #28a745;
+    color: #f7f6f6;
+    padding: 10px 20px;
+    border-radius: 40px;
+    cursor: pointer;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    gap :8px;
+    transition: background-color 0.3s ease;
+}
+#btnEditar {
+    background-color: rgb(30, 37, 234);
+    color: #fff;
+    display: none;
+    font-size: 14px;
+}
+#btnExcluir {
+    background-color: rgb(145, 4, 4);
+    color: #fff;
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.iconemais {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 0;
+    display: inline-block;
+    margin-right: 5px;
+}
+#tabelaCategorias td {
+    font-size: 12px;
+}
+
