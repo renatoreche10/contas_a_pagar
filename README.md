@@ -1,4 +1,3 @@
-Aqui está o texto do seu arquivo README.md formatado de maneira simples, sem os símbolos de marcação (como # ou **) e sem referências a imagens ou figuras, conforme solicitado.
 Gerenciador de Contas a Pagar
 Este é um sistema de gestão financeira pessoal desenvolvido para facilitar o controle de despesas. O projeto permite o cadastro, edição e exclusão de contas, organizando-as automaticamente por categorias e apresentando resumos financeiros em tempo real.
 Funcionalidades
